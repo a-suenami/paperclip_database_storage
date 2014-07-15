@@ -9,6 +9,7 @@ Rails.application.routes.prepend do
     klass = class_name.constantize
 
     klass.attachment_definitions.each do |attachment_name, definition|
+      next if (not definition.has_key? :storage) or definition[:storage].to_s != 'database'
       must_create_default_route = true and next unless definition.has_key?(:url)
       next if loaded_url_templates.include?(definition[:url])
 
